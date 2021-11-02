@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdexcept>
-#include <cstring>
+#include <string>
 
 template <typename T>
 struct Node {
@@ -15,8 +15,8 @@ struct Node {
 
 template <typename T>
 struct LinkedList {
-	Node<T>* head;
-	int size = 0;
+	Node<T>* head = nullptr;
+	unsigned size = 0;
 
 	void add(T val)
 	{
@@ -28,11 +28,12 @@ struct LinkedList {
 	{
 		if (index > size)
 		{
-			throw std::invalid_argument("Index " + index + " is invalid");
+			//"Index " + index + " is invalid"
+			throw std::invalid_argument("Error");
 		}
 		else if (index == 0)
 		{
-			add(val);
+			this->add(val);
 		}
 		else
 		{
@@ -47,22 +48,24 @@ struct LinkedList {
 		}
 	}
 
-	void remove(unsigned index)
+	T remove(unsigned index)
 	{
 		if (index >= size)
 		{
-			throw std::invalid_argument("Index " + index + " is invalid");
+			//"Index " + index + " is invalid"
+			throw std::invalid_argument("Error");
 		}
 		else if (index == 0)
 		{
 			T v = head->val;
 			head = head->ptr;
+			size--;
 			return v;
 		}
 		else
 		{
 			Node<T>* temp = head;
-			for (unsigned i = 1; i < size; i++)
+			for (int i = 1; i < size; i++)
 			{
 				temp = temp->ptr;
 			}
@@ -71,6 +74,7 @@ struct LinkedList {
 			delete(temp->ptr);
 			temp->ptr = temp2;
 
+			size--;
 			return v;
 		}
 	}
@@ -92,8 +96,12 @@ int main()
 
 	lst.add(2);
 	lst.add(3);
+	lst.add(1);
 
+	lst.print();
+	std::cout << '\n';
 	lst.remove(0);
+	lst.add(0, 1);
 
 	lst.print();
 
