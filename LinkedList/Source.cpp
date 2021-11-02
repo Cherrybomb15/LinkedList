@@ -18,6 +18,27 @@ struct LinkedList {
 	Node<T>* head = nullptr;
 	unsigned size = 0;
 
+	int getSize()
+	{
+		return size;
+	}
+
+	T getElement(unsigned index)
+	{
+		if (index >= size)
+		{
+			throw std::invalid_argument("Invalid index");
+		}
+
+		Node<T>* temp = head;
+		for (unsigned i = 0; i < index; i++)
+		{
+			head = head->ptr;
+		}
+
+		return head->val;
+	}
+
 	void add(T val)
 	{
 		head = new Node<T>(val, head);
@@ -29,7 +50,7 @@ struct LinkedList {
 		if (index > size)
 		{
 			//"Index " + index + " is invalid"
-			throw std::invalid_argument("Error");
+			throw std::invalid_argument("Invalid index");
 		}
 		else if (index == 0)
 		{
@@ -42,7 +63,7 @@ struct LinkedList {
 			{
 				temp = temp->ptr;
 			}
-			temp->ptr = new Node<T>(val, temp);
+			temp->ptr = new Node<T>(val, temp->ptr);
 
 			size++;
 		}
@@ -53,7 +74,7 @@ struct LinkedList {
 		if (index >= size)
 		{
 			//"Index " + index + " is invalid"
-			throw std::invalid_argument("Error");
+			throw std::invalid_argument("Invalid index");
 		}
 		else if (index == 0)
 		{
